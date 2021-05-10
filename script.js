@@ -8,33 +8,51 @@ let tensNumbers = ['ткъе', 'шоз ткъе', 'къуз ткъе', 'доьз
 
 let hundredNumbers = ['б1е', 'ши б1е', 'кхо б1е', 'диъ б1е', 'пхи б1е', 'ялх б1е', 'ворх1 б1е', 'барх б1е', 'исс б1е']
 
-function getChechNumb(number) {
-    let first = '';
-    let second = '';
-    let third = '';
-    if (number < 20) {
-        return checNumbers[number - 1]
-    } else if (number < 100) {
-        first = Math.floor(Math.floor(number / 10) / 2);
-        second = number % 20;
-        if (second === 0) {
-            return tensNumbers[first - 1]
-        }
-        return tensNumbers[first - 1] + ' ' + checNumbers[second - 1]
-    } else if (number < 1000) {
-        first = Math.floor(number / 100);
-        second = Math.floor(Math.floor((number % 100) / 10) / 2);
-        third = (number % 100) % 20;
-        if (second === 0) {
-            if (third === 0) {
-                return hundredNumbers[first - 1]
-            }
-            return hundredNumbers[first - 1] + ' ' + checNumbers[third - 1]
-        }
-        return hundredNumbers[first - 1] + ' ' + tensNumbers[second - 1] + ' ' + checNumbers[third - 1]
+let thousend = 'эзар'
+
+function checkNull(number) {
+    if (number === 0) {
+        return ''
     }
 }
 
-for (let i = 0; i < 1000; i++) {
-    console.log(getChechNumb(i))
+function get20Number(number) {
+    checkNull(number)
+    return checNumbers[number - 1]
 }
+
+function get100Number(number) {
+    checkNull(number)
+    return tensNumbers[Math.floor(Math.floor(number / 10) / 2) - 1] + ' ' + getNumbers(number % 20)
+}
+
+function get1000Number(number) {
+    checkNull(number)
+    return hundredNumbers[Math.floor(number / 100) - 1] + ' ' + getNumbers(number % 100)
+}
+
+function getMillionNumber(number) {
+    checkNull(number)
+    return getNumbers(Math.floor(number / 1000)) + ' ' + thousend + ' ' + getNumbers(number % 1000)
+}
+
+
+function getNumbers(number) {
+    if (number === 0) {
+        return ''
+    }
+    if (number < 20) {
+        return get20Number(number);
+    }
+    if (number < 100) {
+        return get100Number(number);
+    }
+    if (number < 1000) {
+        return get1000Number(number);
+    }
+    if (number < 1000000) {
+        return getMillionNumber(number);
+    }
+}
+
+console.log(getNumbers(120502))
