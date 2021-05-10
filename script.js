@@ -1,7 +1,7 @@
 let checNumbers = ['цхьаъ', 'шиъ', 'кхоъ', 'диъ', 'пхиъ', 'ялх', 'ворх1',
     'барх1', 'исс', 'итт', 'цхьайта', 'шийта', 'кхойтта',
     'дейтта', 'пхийтта', 'ялхийтта', 'верх1итта', 'берхитта',
-    'ткъе ясса', 'ткъа'
+    'ткъе ясса'
 ];
 
 let tensNumbers = ['ткъе', 'шоз ткъе', 'къуз ткъе', 'доьз ткъе', 'баь1а'];
@@ -11,18 +11,30 @@ let hundredNumbers = ['б1е', 'ши б1е', 'кхо б1е', 'диъ б1е', 'п
 function getChechNumb(number) {
     let first = '';
     let second = '';
-    if (number <= 20) {
+    let third = '';
+    if (number < 20) {
         return checNumbers[number - 1]
     } else if (number < 100) {
-        first = Math.floor(Math.floor(number / 10) / 2) - 1;
-        return tensNumbers[first] + ' ' + checNumbers[number % 20 - 1]
-    } else if (number === 100) {
-        return tensNumbers[tensNumbers.length - 1]
+        first = Math.floor(Math.floor(number / 10) / 2);
+        second = number % 20;
+        if (second === 0) {
+            return tensNumbers[first - 1]
+        }
+        return tensNumbers[first - 1] + ' ' + checNumbers[second - 1]
     } else if (number < 1000) {
-        first = Math.floor(number / 100) - 1;
-        second = Math.floor(Math.floor((number % 100) / 10) / 2) - 1;
-        return hundredNumbers[first] + ' ' + tensNumbers[second] + ' ' + checNumbers[(number % 100) % 20 - 1]
+        first = Math.floor(number / 100);
+        second = Math.floor(Math.floor((number % 100) / 10) / 2);
+        third = (number % 100) % 20;
+        if (second === 0) {
+            if (third === 0) {
+                return hundredNumbers[first - 1]
+            }
+            return hundredNumbers[first - 1] + ' ' + checNumbers[third - 1]
+        }
+        return hundredNumbers[first - 1] + ' ' + tensNumbers[second - 1] + ' ' + checNumbers[third - 1]
     }
 }
 
-console.log(getChechNumb(578))
+for (let i = 0; i < 1000; i++) {
+    console.log(getChechNumb(i))
+}
